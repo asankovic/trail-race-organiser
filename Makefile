@@ -10,6 +10,9 @@ RUN = bootRun
 PRODUCTION_PROFILE = prod
 DEVELOPMENT_PROFILE = dev
 
+DOCKER_BUILD_WITH_ARG = docker build --build-arg
+SUBPROJECT_ARG = SUBPROJECT
+
 .DEFAULT_GOAL := help
 
 help:
@@ -18,12 +21,15 @@ help:
 	@echo "Available commands:"
 	@echo "  make build                         - Build the entire project"
 	@echo "  make test                          - Run tests for the entire project"
+	@echo "  make containerize                  - Builds all subprojects and uses each build to create the latest docker image"
 	@echo "  make run                           - Run the main application for all subprojects (production profile)"
 	@echo "  make dev                           - Run the development environment for all subprojects (development profile)"
 	@echo "  make build-query-service           - Build Race application query service"
 	@echo "  make build-command-service         - Build Race application command service"
 	@echo "  make test-query-service            - Run tests for Race application query service"
 	@echo "  make test-command-service          - Run tests for Race application command service"
+	@echo "  make containerize-command-service  - Builds command service and uses created build to create the latest docker image"
+	@echo "  make containerize-query-service    - Builds query service and uses created build to create the latest docker image"
 	@echo "  make run-query-service             - Run the main application for Race application query service (production profile)"
 	@echo "  make run-command-service           - Run the main application for Race application command service (production profile)"
 	@echo "  make dev-query-service             - Run the development environment for Race application query service (development profile)"
@@ -56,6 +62,20 @@ test-command-service:
 test-query-service:
 	@echo "Running tests for Race application query service"
 	$(GRADLE) $(QUERY_SERVICE):$(TEST)
+
+containerize: build
+	@for subproject in $(SUBPROJECTS); do \
+		echo "Creating a docker image with the tag latest for $$subproject"; \
+		$(DOCKER_BUILD_WITH_ARG) $(SUBPROJECT_ARG)=$$subproject -t $$subproject:latest .; \
+	done
+
+containerize-command-service: build-command-service
+	echo "Creating a docker image with the tag latest for Race application command service"; \
+	$(DOCKER_BUILD_WITH_ARG) $(SUBPROJECT_ARG)=$(COMMAND_SERVICE) -t $(COMMAND_SERVICE):latest .; \
+
+containerize-query-service: build-query-service
+	echo "Creating a docker image with the tag latest for Race application query service"; \
+	$(DOCKER_BUILD_WITH_ARG) $(SUBPROJECT_ARG)=$(QUERY_SERVICE) -t $(QUERY_SERVICE):latest .; \
 
 run:
 	@for subproject in $(SUBPROJECTS); do \
