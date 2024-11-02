@@ -1,0 +1,3 @@
+rootProject.name = 'trail-race-organiser'
+
+include 'race-application-command-service', 'race-application-query-service'
