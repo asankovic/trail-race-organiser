@@ -1,0 +1,21 @@
+services:
+  database:
+    image: postgres:16
+    container_name: race-query-service-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: raceadmin
+      POSTGRES_PASSWORD: racing123
+      POSTGRES_DB: trail-race
+    ports:
+      - "5432:5432"
+    volumes:
+      - race-query-data:/var/lib/postgresql/data
+    networks:
+      - race-query-network
+
+volumes:
+  race-query-data:
+
+networks:
+  race-query-network:
