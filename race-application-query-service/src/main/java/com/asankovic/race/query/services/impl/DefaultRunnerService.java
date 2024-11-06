@@ -49,8 +49,6 @@ public class DefaultRunnerService implements RunnerService {
         this.environment = environment;
     }
 
-    //TODO should this be ignored or fallback/retry logic created
-    //TODO extend messages with unique IDs to improve logging
     @Override
     public RunnerData createRunner(final CreateRunnerMessageData createRunnerMessageData) throws UnknownDistanceException {
         Validate.notNull(createRunnerMessageData, NULL_PARAMETER_ERROR_MESSAGE_TEMPLATE.formatted("CreateRunnerMessageData"));
