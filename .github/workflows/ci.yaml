@@ -37,4 +37,8 @@ jobs:
       - name: Run tests
         run: make test-${{ matrix.subproject }}
 
+      - name: Containerize and deploy (WIP)
+        run: make containerize-${{ matrix.subproject }}
+        #TODO deploy
+
       #TODO add sonar, jacoco, deployment...
