@@ -13,6 +13,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
+import java.util.UUID;
 
 import static com.asankovic.race.query.constants.BaseConstants.FEATURE_GET_ALL_RUNNERS_ENABLED_PROPERTY;
 import static org.hamcrest.Matchers.hasSize;
@@ -60,7 +61,7 @@ class RunnerControllerTest {
 
     @Test
     void shouldReturnRunnerForId() throws Exception {
-        final var runnerData = new RunnerData("testID", "firstName", "lastName", "testClub", "testDistance");
+        final var runnerData = new RunnerData(UUID.randomUUID().toString(), "firstName", "lastName", "testClub", "testDistance");
 
         when(runnerService.getRunner(anyString())).thenReturn(runnerData);
 
@@ -78,7 +79,7 @@ class RunnerControllerTest {
     void shouldReturnNotFound_whenRunnerWithIdDoesNotExist() throws Exception {
         when(runnerService.getRunner(anyString())).thenThrow(UnknownRunnerIdException.class);
 
-        mockMvc.perform(get(RunnerController.ENDPOINT + "/nonexistentId"))
+        mockMvc.perform(get(RunnerController.ENDPOINT + "/" + UUID.randomUUID()))
                 .andExpect(status().isNotFound())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.error").exists());
