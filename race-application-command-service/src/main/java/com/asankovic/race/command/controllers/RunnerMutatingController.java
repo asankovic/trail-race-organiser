@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
@@ -22,9 +23,15 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(RunnerMutatingController.ENDPOINT)
+//@SecurityRequirement(name = "bearerAuth")
+@SecurityRequirement(name = "Bearer Authentication")
 @Tag(name = "Track Runner Mutations", description = "Track Runner Mutating API")
 public class RunnerMutatingController {
 //    todo add tests for jwt as well
+
+    //todo create and update readme
+    //todo add debug when running makefile
+    //todo test
 
     public static final String ENDPOINT = "/v1/runners";
 
@@ -56,6 +63,14 @@ public class RunnerMutatingController {
             @ApiResponse(
                     description = "Issue occurred when trying to publish a new creation event",
                     responseCode = SwaggerConstants.INTERNAL_SERVER_ERROR,
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorData.class)
+                    )
+            ),
+            @ApiResponse(
+                    description = "Provided JWT token is missing or not valid.",
+                    responseCode = SwaggerConstants.UNAUTHORIZED,
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ErrorData.class)
@@ -103,6 +118,14 @@ public class RunnerMutatingController {
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ErrorData.class)
                     )
+            ),
+            @ApiResponse(
+                    description = "Provided JWT token is missing or not valid.",
+                    responseCode = SwaggerConstants.UNAUTHORIZED,
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorData.class)
+                    )
             )
     })
     public void updateRunner(@Valid @RequestBody UpdateRunnerData updateRunnerData,
@@ -134,6 +157,14 @@ public class RunnerMutatingController {
             @ApiResponse(
                     description = "Issue occurred when trying to publish a new deletion event",
                     responseCode = SwaggerConstants.INTERNAL_SERVER_ERROR,
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorData.class)
+                    )
+            ),
+            @ApiResponse(
+                    description = "Provided JWT token is missing or not valid.",
+                    responseCode = SwaggerConstants.UNAUTHORIZED,
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ErrorData.class)
