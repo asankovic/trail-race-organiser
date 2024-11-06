@@ -47,6 +47,7 @@ public class DefaultRunnerMessageReceiver implements MessageListener {
 
             if (validationErrors.hasErrors()) {
                 LOG.warn("Received message does not respect data constraints, skipping. Errors:{}", validationErrors);
+                return;
             }
 
             determineAndProcessOperation(baseRunnerMessageData);
@@ -59,10 +60,11 @@ public class DefaultRunnerMessageReceiver implements MessageListener {
 
     private void determineAndProcessOperation(final BaseRunnerMessageData baseRunnerMessageData)
             throws UnknownDistanceException, UnknownRunnerIdException {
-        switch (baseRunnerMessageData.getMessageType()) {
-            case CREATE -> runnerService.createRunner((CreateRunnerMessageData) baseRunnerMessageData);
-            case PARTIAL_UPDATE -> runnerService.updateRunner((UpdateRunnerMessageData) baseRunnerMessageData);
-            case DELETE -> runnerService.deleteRunner((DeleteRunnerMessageData) baseRunnerMessageData);
+        switch (baseRunnerMessageData) {
+            case CreateRunnerMessageData createRunnerMessageData -> runnerService.createRunner(createRunnerMessageData);
+            case UpdateRunnerMessageData updateRunnerMessageData -> runnerService.updateRunner(updateRunnerMessageData);
+            case DeleteRunnerMessageData deleteRunnerMessageData -> runnerService.deleteRunner(deleteRunnerMessageData);
+            case null, default -> throw new IllegalArgumentException("Unknown message type!");
         }
     }
 }
