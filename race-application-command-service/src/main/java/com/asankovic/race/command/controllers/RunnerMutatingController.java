@@ -23,15 +23,9 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(RunnerMutatingController.ENDPOINT)
-//@SecurityRequirement(name = "bearerAuth")
 @SecurityRequirement(name = "Bearer Authentication")
 @Tag(name = "Track Runner Mutations", description = "Track Runner Mutating API")
 public class RunnerMutatingController {
-//    todo add tests for jwt as well
-
-    //todo create and update readme
-    //todo add debug when running makefile
-    //todo test
 
     public static final String ENDPOINT = "/v1/runners";
 

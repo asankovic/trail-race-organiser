@@ -19,6 +19,7 @@ public class GlobalExceptionHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
+    //TODO improve mockMvc tests with detailed field checks
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorDataList> handleValidationExceptions(final MethodArgumentNotValidException e) {
         final List<ErrorData> errorList = e.getBindingResult().getFieldErrors().stream().map(error -> {
