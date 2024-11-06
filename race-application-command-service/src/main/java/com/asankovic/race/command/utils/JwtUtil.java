@@ -1,6 +1,8 @@
 package com.asankovic.race.command.utils;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -9,7 +11,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
+import javax.crypto.SecretKey;
 
 @Component
 public class JwtUtil implements InitializingBean {
@@ -28,18 +30,22 @@ public class JwtUtil implements InitializingBean {
 
     public boolean isTokenValid(final String token) {
         try {
-            final var secretPassword = Keys.password(secret.toCharArray());
-
-            return Jwts.parser()
-                    .verifyWith(secretPassword)
+            Jwts.parser()
+                    .verifyWith(getSignInKey())
                     .build()
-                    .parseSignedClaims(token)
-                    .getPayload()
-                    .getExpiration()
-                    .before(new Date());
+                    .parseSignedClaims(token);
+        } catch (final ExpiredJwtException ignored) {
+            return false;
         } catch (final RuntimeException e) {
             LOG.info("Unable to verify token", e);
             return false;
         }
+
+        return true;
+    }
+
+    private SecretKey getSignInKey() {
+        final byte[] keyBytes = Decoders.BASE64.decode(secret);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 }
