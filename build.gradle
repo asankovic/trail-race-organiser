@@ -34,6 +34,8 @@ subprojects {
         implementation 'org.springframework.boot:spring-boot-starter-validation'
         implementation 'org.apache.commons:commons-lang3:3.17.0'
         implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+        implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
         testImplementation 'org.assertj:assertj-core:3.26.3'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

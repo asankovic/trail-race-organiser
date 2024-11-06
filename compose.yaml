@@ -2,7 +2,7 @@ services:
   database:
     image: postgres:16
     container_name: race-query-service-db
-    restart: unless-stopped
+    restart: always
     environment:
       POSTGRES_USER: raceadmin
       POSTGRES_PASSWORD: racing123
@@ -13,9 +13,22 @@ services:
       - race-query-data:/var/lib/postgresql/data
     networks:
       - race-query-network
+  pubsub:
+    image: redis:7-alpine
+    container_name: race-messaging-service
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - race-messaging-data:/data
+    networks:
+      - race-messaging-network
+
 
 volumes:
   race-query-data:
+  race-messaging-data:
 
 networks:
   race-query-network:
+  race-messaging-network:
