@@ -1,10 +1,9 @@
 # Trail Race Organiser
 Event driven CQRS microservice architecture allowing CRUD operations for organising trail races.
-***
 
 ## Architecture
+![racingsystem](https://github.com/user-attachments/assets/7c839ed0-4a5e-4e57-9dc8-d89710d54334)
 
-***
 
 ## Run instructions
 
@@ -27,7 +26,6 @@ make dev-query-service
 # make dev
 ```
 
-***
 
 ## Makefile commands
 
@@ -59,7 +57,6 @@ Makefile for Trail Race Application Development
   - `command-service`
   - `query-service`
 
-***
 
 ## Using the application
 
@@ -77,7 +74,6 @@ testing](https://jwt.io/#debugger-io?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
 using the default dev profile secret in this repo:
 
 `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjI0NjEzMzR9.wcpt9p5DwYvgGwvOy-_jTIcDYsCpqUCJqSwpq0AFzLw`
-***
 
 ## Available endpoints
 
