@@ -3,6 +3,7 @@ package com.asankovic.race.query.controllers;
 import com.asankovic.race.query.constants.SwaggerConstants;
 import com.asankovic.race.query.data.dtos.rest.ErrorData;
 import com.asankovic.race.query.data.dtos.rest.RunnerData;
+import com.asankovic.race.query.exceptions.InvalidPublicRunnerIdException;
 import com.asankovic.race.query.exceptions.UnknownRunnerIdException;
 import com.asankovic.race.query.services.RunnerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,7 +13,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.hibernate.validator.constraints.UUID;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 import static com.asankovic.race.query.constants.BaseConstants.FEATURE_GET_ALL_RUNNERS_ENABLED_DEFAULT;
 import static com.asankovic.race.query.constants.BaseConstants.FEATURE_GET_ALL_RUNNERS_ENABLED_PROPERTY;
@@ -113,7 +114,14 @@ public class RunnerController {
             )
     })
     public RunnerData getRunner(@Parameter(description = "Existing public ID of the runner")
-                                    @PathVariable @UUID String publicRunnerID) throws UnknownRunnerIdException {
+                                    @PathVariable String publicRunnerID) throws UnknownRunnerIdException {
+        //TODO switch to annotation
+        // in general, a lot of code is shared across services DTOs, handlers, etc and should be extracted to a shared lib
+        try {
+            UUID.fromString(publicRunnerID);
+        } catch (final IllegalArgumentException e) {
+            throw new InvalidPublicRunnerIdException(publicRunnerID + " is not a valid UUID");
+        }
         return runnerService.getRunner(publicRunnerID);
     }
 }
