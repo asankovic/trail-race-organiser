@@ -1,9 +1,9 @@
 package com.asankovic.race.command.data.dtos.messaging;
 
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.RequiredArgsConstructor;
 
-@Getter
 @RequiredArgsConstructor
 public enum RunnerMessageType {
 
@@ -12,4 +12,19 @@ public enum RunnerMessageType {
     DELETE("runner-delete");
 
     private final String value;
+
+    @JsonCreator
+    public static RunnerMessageType fromValue(String value) {
+        for (final RunnerMessageType type : RunnerMessageType.values()) {
+            if (type.value.equals(value)) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("Unknown RunnerMessageType: " + value);
+    }
+
+    @JsonValue
+    public String getValue() {
+        return value;
+    }
 }
