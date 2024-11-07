@@ -48,7 +48,7 @@ public class JwtFilter extends OncePerRequestFilter {
         final String authorizationHeader = request.getHeader("Authorization");
 
         if (Objects.isNull(authorizationHeader) || !authorizationHeader.startsWith("Bearer ")) {
-            LOG.trace("Received a request without a JWT token!");
+            LOG.trace("Received a request without a JWT token");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.getWriter().write(objectMapper.writeValueAsString(new ErrorData("Authorization header is required to access this resource!")));
@@ -58,14 +58,14 @@ public class JwtFilter extends OncePerRequestFilter {
         final String jwtToken = authorizationHeader.substring(7);
 
         if (isBlank(jwtToken) || !jwtUtil.isTokenValid(jwtToken)) {
-            LOG.trace("Received a request with invalid or expired JWT token: {}", jwtToken);
+            LOG.trace("Received a request with invalid or expired JWT token");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.getWriter().write(objectMapper.writeValueAsString(new ErrorData("Provided JWT token is invalid or expired!")));
             return;
         }
 
-        LOG.trace("Received a request with valid JWT token: {}", jwtToken);
+        LOG.trace("Received a request with valid JWT token");
         filterChain.doFilter(request, response);
     }
 }

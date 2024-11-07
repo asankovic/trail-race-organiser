@@ -91,8 +91,8 @@ public class DefaultRunnerService implements RunnerService {
         if (isNotBlank(updateRunnerMessageData.getDistanceCode())) {
             final DistanceModel distance = distanceRepository.getDistanceByName(updateRunnerMessageData.getDistanceCode()).orElseThrow(
                     () -> {
-                        final var errorMessage = "Requested update for non existing club name ('%s'), skipping club update for runner '%s'"
-                                .formatted(updateRunnerMessageData.getClub(), runnerID);
+                        final var errorMessage = "Requested update for non existing distance code ('%s'), skipping distance update for runner '%s'"
+                                .formatted(updateRunnerMessageData.getDistanceCode(), runnerID);
                         return new UnknownDistanceException(errorMessage);
                     }
             );

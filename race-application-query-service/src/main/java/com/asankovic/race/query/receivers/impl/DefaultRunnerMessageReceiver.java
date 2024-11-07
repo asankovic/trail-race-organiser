@@ -34,14 +34,12 @@ public class DefaultRunnerMessageReceiver implements MessageListener {
 
     //TODO should errors be ignored or fallback/retry logic created
     //TODO extend messages with unique IDs to improve logging
-    //TODO add more fine grained logging
     @Override
     public void onMessage(final Message message, final byte[] pattern) {
-        LOG.debug("Received a message with pattern {}", pattern);
-        LOG.debug("Received message data: {}", message.getBody());
+        final var messageBody = new String(message.getBody());
+        LOG.debug("Received message data: {}", messageBody);
 
         try {
-            final var messageBody = new String(message.getBody());
             final BaseRunnerMessageData baseRunnerMessageData = objectMapper.readValue(messageBody, BaseRunnerMessageData.class);
             final Errors validationErrors = validator.validateObject(baseRunnerMessageData);
 

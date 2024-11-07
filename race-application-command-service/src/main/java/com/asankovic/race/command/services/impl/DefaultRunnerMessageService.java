@@ -59,7 +59,7 @@ public class DefaultRunnerMessageService implements RunnerMessageService {
         try {
             final String convertedMessageData = objectMapper.writeValueAsString(messageData);
             redisTemplate.convertAndSend(channelName, convertedMessageData);
-            LOG.info("Successfully published {} event", messageData.getMessageType());
+            LOG.debug("Successfully published {} event", messageData.getMessageType());
         } catch (final JsonProcessingException e) {
             LOG.warn("Failed to serialize message, event will not be published", e);
         } catch (final Exception e) {

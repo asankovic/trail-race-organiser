@@ -31,7 +31,7 @@ public class DefaultRunnerMessageMapper implements RunnerMessageMapper {
     public UpdateRunnerMessageData mapToUpdateMessage(final UpdateRunnerData updateRunnerData,
                                                       final String publicRunnerID) {
         Validate.notNull(updateRunnerData, NULL_PARAMETER_ERROR_MESSAGE_TEMPLATE.formatted("UpdateRunnerData"));
-        Validate.notNull(publicRunnerID, BLANK_PARAMETER_ERROR_MESSAGE_TEMPLATE.formatted("publicRunnerID"));
+        Validate.notBlank(publicRunnerID, BLANK_PARAMETER_ERROR_MESSAGE_TEMPLATE.formatted("publicRunnerID"));
 
         return new UpdateRunnerMessageData(
                 publicRunnerID,
@@ -44,7 +44,7 @@ public class DefaultRunnerMessageMapper implements RunnerMessageMapper {
 
     @Override
     public DeleteRunnerMessageData mapToDeleteMessage(final String publicRunnerID) {
-        Validate.notNull(publicRunnerID, BLANK_PARAMETER_ERROR_MESSAGE_TEMPLATE.formatted("publicRunnerID"));
+        Validate.notBlank(publicRunnerID, BLANK_PARAMETER_ERROR_MESSAGE_TEMPLATE.formatted("publicRunnerID"));
 
         return new DeleteRunnerMessageData(publicRunnerID);
     }

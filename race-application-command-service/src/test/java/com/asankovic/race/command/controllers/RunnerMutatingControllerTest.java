@@ -112,8 +112,8 @@ class RunnerMutatingControllerTest {
 
     @Test
     void shouldReturnValidationError_whenUpdateDataIsNotValid() throws Exception {
-        final String longString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890ABCDEFGHIJKDFASFDSAFDSAFDSAFSAD"; //more than 50 characters
-        final var updateData = new UpdateRunnerData(SPACE, null, null, longString);
+        final String invalidName = "%test$"; // not allowed characters
+        final var updateData = new UpdateRunnerData(invalidName, null, null, null);
 
         mockMvc.perform(patch(RunnerMutatingController.ENDPOINT + "/" + UUID.randomUUID())
                         .contentType(MediaType.APPLICATION_JSON)

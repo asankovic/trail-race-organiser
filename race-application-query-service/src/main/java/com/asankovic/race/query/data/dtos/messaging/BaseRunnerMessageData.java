@@ -18,9 +18,9 @@ import lombok.NoArgsConstructor;
         property = "messageType"
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = CreateRunnerMessageData.class, name = "CREATE"),
-        @JsonSubTypes.Type(value = UpdateRunnerMessageData.class, name = "PARTIAL_UPDATE"),
-        @JsonSubTypes.Type(value = DeleteRunnerMessageData.class, name = "DELETE")
+        @JsonSubTypes.Type(value = CreateRunnerMessageData.class, name = RunnerMessageType.CREATE_VALUE),
+        @JsonSubTypes.Type(value = UpdateRunnerMessageData.class, name = RunnerMessageType.PARTIAL_UPDATE_VALUE),
+        @JsonSubTypes.Type(value = DeleteRunnerMessageData.class, name = RunnerMessageType.DELETE_VALUE),
 })
 public abstract class BaseRunnerMessageData {
 
