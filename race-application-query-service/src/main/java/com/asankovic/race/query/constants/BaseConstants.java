@@ -11,6 +11,9 @@ public final class BaseConstants {
     public static final String FEATURE_GET_ALL_RUNNERS_ENABLED_PROPERTY = "feature.get.all.runners.enabled";
     public static final boolean FEATURE_GET_ALL_RUNNERS_ENABLED_DEFAULT = false;
 
+    public static final String ALLOWED_TEXT_REGEX = "^[a-zA-Z0-9\\s-]+$";
+    public static final String ALLOWED_TEXT_REGEX_VALIDATION_MESSAGE = "Must contain only alphanumeric and allowed characters";
+
     private BaseConstants() {
         throw new IllegalStateException("Utility class");
     }

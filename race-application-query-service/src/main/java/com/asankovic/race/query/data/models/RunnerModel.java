@@ -38,6 +38,7 @@ public class RunnerModel extends BaseModel {
     private DistanceModel distance;
 
     public RunnerModel(final String firstName, final String lastName, final String club, final DistanceModel distance) {
+        //TODO conflicts?
         this.publicId = UUID.randomUUID();
         this.firstName = firstName;
         this.lastName = lastName;

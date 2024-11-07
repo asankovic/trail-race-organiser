@@ -5,7 +5,6 @@ import com.asankovic.race.command.data.dtos.rest.CreateRunnerData;
 import com.asankovic.race.command.data.dtos.rest.ErrorData;
 import com.asankovic.race.command.data.dtos.rest.ErrorDataList;
 import com.asankovic.race.command.data.dtos.rest.UpdateRunnerData;
-import com.asankovic.race.command.exceptions.InvalidPublicRunnerIdException;
 import com.asankovic.race.command.services.RunnerMessageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -16,10 +15,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.hibernate.validator.constraints.UUID;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 @RestController
 @RequestMapping(RunnerMutatingController.ENDPOINT)
@@ -124,8 +122,7 @@ public class RunnerMutatingController {
     })
     public void updateRunner(@Valid @RequestBody UpdateRunnerData updateRunnerData,
                              @Parameter(description = "Existing public ID of the runner")
-                             @PathVariable String publicRunnerID) {
-        validatePublicRunnerID(publicRunnerID);
+                             @PathVariable @UUID String publicRunnerID) {
         runnerMessageService.publishUpdateEvent(updateRunnerData, publicRunnerID);
     }
 
@@ -166,16 +163,7 @@ public class RunnerMutatingController {
             )
     })
     public void deleteRunner(@Parameter(description = "Existing public ID of the runner")
-                             @PathVariable String publicRunnerID) {
-        validatePublicRunnerID(publicRunnerID);
+                                 @PathVariable @UUID String publicRunnerID) {
         runnerMessageService.publishDeletionEvent(publicRunnerID);
-    }
-
-    private void validatePublicRunnerID(final String publicRunnerID) {
-        try {
-            UUID.fromString(publicRunnerID);
-        } catch (final IllegalArgumentException e) {
-            throw new InvalidPublicRunnerIdException(publicRunnerID + " is not a valid UUID");
-        }
     }
 }
