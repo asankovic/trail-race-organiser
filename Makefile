@@ -90,6 +90,7 @@ dev:
 		>> logs/$$subproject.txt 2>&1 & \
 	done
 
+#TODO add debug option
 dev-%: validate-%
 	@echo "Running development environment for $*..."; \
 	$(GRADLE) :$(SERVICE_NAME_PREFIX)$*:$(RUN) --args='--spring.profiles.active=$(SPRING_PROFILE) $(SPRING_PROPS)'
